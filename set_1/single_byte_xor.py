@@ -13,7 +13,8 @@ occurance_english = {
 }
 
 def fixed_xor(chrstr1, chrstr2):
-    """Takes two charachter strings of the same length and xors them against each other"""
+    """Takes two charachter strings of the same length and xors them against
+    each other"""
     bar1 = bytes.fromhex(chrstr1)
     bar2 = (chrstr2).encode()
     return bytes(a ^ b for a, b in zip(bar1, bar2)).hex()
@@ -24,13 +25,16 @@ def generate_key(length):
         yield (k * length)
 
 def decypher(m):
+    """Decypher a given message with single charachter key form lowercase
+    letters"""
     clear_texts = []
     for key in generate_key(len(m)):
         clear_texts.append([bytes.fromhex(fixed_xor(m, key)).decode(), key])
     return clear_texts
 
 def get_occurance(text):
-    """Count all letters of a given text and return a dict with letter %"""
+    """Count all letters of a given text and return a dict with
+    letter %"""
     occurance_text = {
         'a': 0,    'b': 0,    'c': 0,    'd': 0,
         'e': 0,    'f': 0,    'g': 0,    'h': 0,
