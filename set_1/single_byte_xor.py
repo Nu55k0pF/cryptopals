@@ -53,14 +53,40 @@ def get_occurance(text):
     occ = {k: v / len(text) * 100 for k, v in occurance_text.items()}
     return occ
 
-def get_fitting(occurence):
-    fitting_quotient = sum()
+def get_ioc(occurence):
+    ioc_messured = sum( n * (n - 1) for n in occurence.values()) / (len(message) * (len(message) - 1) / len(occurance_english))
+    return ioc_messured
 
 
 l = decypher(message)
 
+# Desicion with ioc
+
+ioc_english = 1.73
+# ioc_german = 2.05
+# ioc_french = 2.02
+iocs = list()
+messages = list()
+keys = list()
+
 for pair in l:
-    get_occurance(pair[0])
+    # ordering is ioc, decrypted message, key
+    iocs.append([get_ioc(get_occurance(pair[0])), pair[0], pair[1]])
+    # iocs.append(get_ioc(get_occurance(pair[0])))
+    # messages.append(pair[0])
+    # keys.append(pair[1])
+
+# select best match
+best_match = (min(iocs, key = lambda x : abs(x - ioc_english)))
+# TODO: Fix this ^
+
+# print(best_match)
+# print(messages[iocs.index(best_match)])
+# print(keys[iocs.index(best_match)])
+
+
 
 
 ## TODO: implement fitting quotient see https://arpit.substack.com/p/deciphering-single-byte-xor-ciphertexts
+## Implement pearson's chi squared test
+## also implement Index of coincidence
