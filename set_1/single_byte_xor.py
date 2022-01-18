@@ -1,3 +1,6 @@
+# Implemented IOC detection and the IOC gets calculated correctly, but for this task it seems not to be the best method to find the answer because of to many non letters.
+# Becuase I could not find a propper source for fitting qutioent, I copied someone elses impelementation: https://arpit.substack.com/p/deciphering-single-byte-xor-ciphertexts
+
 import string
 
 message = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
@@ -53,40 +56,29 @@ def get_occurance(text):
     occ = {k: v / len(text) * 100 for k, v in occurance_text.items()}
     return occ
 
-def get_ioc(occurence):
-    ioc_messured = sum( n * (n - 1) for n in occurence.values()) / (len(message) * (len(message) - 1) / len(occurance_english))
-    return ioc_messured
+def compute_fitting_quotient(dist_expected, dist_messured):
+    """Messure the letterfrequency of a text compared to english"""
+    expected_values = list(dist_expected.values())
+    messured_values = list(dist_messured.values())
+    return sum([abs(a - b) for a, b in zip(expected_values, messured_values)]) / len(dist_messured)
 
 
+# This needs to be turend into a function that works more generalized
 l = decypher(message)
 
-# Desicion with ioc
-
-ioc_english = 1.73
-# ioc_german = 2.05
-# ioc_french = 2.02
-iocs = list()
-messages = list()
-keys = list()
+fitted = list()
 
 for pair in l:
-    # ordering is ioc, decrypted message, key
-    iocs.append([get_ioc(get_occurance(pair[0])), pair[0], pair[1]])
-    # iocs.append(get_ioc(get_occurance(pair[0])))
-    # messages.append(pair[0])
-    # keys.append(pair[1])
+    occurence_messured = get_occurance(pair[0])
+    q = compute_fitting_quotient(occurance_english, occurence_messured)
+    fitted.append([q, [pair[0], pair[1]]])
 
-# select best match
-best_match = (min(iocs, key = lambda x : abs(x - ioc_english)))
-# TODO: Fix this ^
-
-# print(best_match)
-# print(messages[iocs.index(best_match)])
-# print(keys[iocs.index(best_match)])
+fitted.sort()
+for most_likely in fitted[:2]:
+    print("======================================")
+    print(str(most_likely[0]) + "\n" + most_likely[1][0] + "\n" + most_likely[1][1] )
 
 
 
 
-## TODO: implement fitting quotient see https://arpit.substack.com/p/deciphering-single-byte-xor-ciphertexts
 ## Implement pearson's chi squared test
-## also implement Index of coincidence
