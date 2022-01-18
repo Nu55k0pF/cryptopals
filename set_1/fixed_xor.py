@@ -7,7 +7,7 @@ def fixed_xor(chrstr1, chrstr2):
         bar1 = bytes.fromhex(chrstr1)
         bar2 = bytes.fromhex(chrstr2)
         return bytes(a ^ b for a, b in zip(bar1, bar2)).hex()
-    else
+    else:
         print("Message and key must be of same length")
 
 print(fixed_xor(m, k))
