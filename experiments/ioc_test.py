@@ -1,6 +1,9 @@
 import string
 
-message = "test"
+# TODO: works with english plain text but does net work for strange characters
+# strip out all non letter charachters in
+
+message = "SSWUR[∟q∟PUWY∟]∟LSIRX∟SZ∟^]_SR"
 
 occurance_english = {
     'a': 8.2389258,    'b': 1.5051398,    'c': 2.8065007,    'd': 4.2904556,
@@ -34,7 +37,7 @@ def get_occurance(text):
     return occ
 
 def get_lcount(text):
-
+    """Count all letters in text"""
     letter_count = {
     'a': 0,    'b': 0,    'c': 0,    'd': 0,
     'e': 0,    'f': 0,    'g': 0,    'h': 0,
@@ -52,9 +55,9 @@ def get_lcount(text):
             pass
     return letter_count
 
-def get_ioc(occurence):
+def get_ioc(l_count):
     """Calculate index of coincidence"""
-    return sum( n * (n - 1) for n in occurence.values()) / (len(message) * (len(message) - 1) / len(occurance_english))
+    return sum( n * (n - 1) for n in l_count.values()) / (sum(l_count.values()) * (sum(l_count.values()) - 1) / len(occurance_english))
 
 print(get_lcount(message))
 print(get_ioc(get_lcount(message)))
