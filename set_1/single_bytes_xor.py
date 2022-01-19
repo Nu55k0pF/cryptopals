@@ -38,7 +38,33 @@ def get_lcount(text):
             pass
     return letter_count
 
+def get_ioc(l_count):
+    """Calculate index of coincidence"""
+    try:
+        return sum( n * (n - 1) for n in l_count.values()) / (sum(l_count.values()) * (sum(l_count.values()) - 1) / len(l_count))
+    except ZeroDivisionError:
+        return 0
 
-plain_texts = single_byte_xor(message)
-for text in plain_texts:
-    print(text)
+def match(lst):
+    """Returns the value that matches best to an expected value, used for ioc"""
+    # ioc_english = 1.73
+    # ioc_german = 2.05
+    # ioc_french = 2.02
+    expected_value = 1.73
+    return min(lst, key = lambda x : abs(x - expected_value))
+
+def break_single_byte_xor(message):
+
+    plain_texts = single_byte_xor(message)
+    scores = []
+    keys = generate_keys(message)
+
+    for text in plain_texts:
+        scores.append(get_ioc(get_lcount(text)))
+
+    i = scores.index(match(scores))
+    print(match(scores))
+    print(plain_texts[i])
+    print(keys[i])
+
+break_single_byte_xor(message)
