@@ -67,4 +67,5 @@ def break_single_byte_xor(message):
     print(plain_texts[i])
     print(keys[i])
 
+
 break_single_byte_xor(message)
