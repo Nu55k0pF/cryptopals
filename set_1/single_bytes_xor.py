@@ -63,9 +63,7 @@ def break_single_byte_xor(message):
         scores.append(get_ioc(get_lcount(text)))
 
     i = scores.index(match(scores))
-    print(match(scores))
-    print(plain_texts[i])
-    print(keys[i])
+    return match(scores), plain_texts[i], keys[i]
 
 
-break_single_byte_xor(message)
+print(break_single_byte_xor(message))
