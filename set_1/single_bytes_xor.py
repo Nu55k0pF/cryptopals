@@ -1,4 +1,3 @@
-# https://gist.github.com/mikeecb/0d75f46521fe526a0138ae5265392505
 message = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 bmessage = bytearray.fromhex(message)
 
@@ -66,4 +65,4 @@ def break_single_byte_xor(message):
     return match(scores), plain_texts[i], keys[i]
 
 
-print(break_single_byte_xor(message))
+# print(break_single_byte_xor(message))
