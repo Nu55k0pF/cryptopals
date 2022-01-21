@@ -1,5 +1,5 @@
-from single_bytes_xor import break_single_byte_xor, get_ioc, get_lcount, match
 import single_bytes_xor
+from single_bytes_xor import break_single_byte_xor, get_ioc, get_lcount, match, single_byte_xor
 
 
 cypher_texts = []
@@ -18,10 +18,9 @@ def detect_sbxor(cypher_texts):
     
     
     for text in cypher_texts:
-        s, p, k = break_single_byte_xor(text)
-        score_temp.append(s)
-        plain_texts.append(p)
-        keys.append(k)
+        p_t = single_byte_xor(text)
+        for t in p_t:
+            plain_texts.append(t)
 
 #TODO: Test above for loop again and test bottom loop again, script runs
 # but gives garbage answer
@@ -30,6 +29,7 @@ def detect_sbxor(cypher_texts):
         scores.append(get_ioc(get_lcount(text)))
 
     i = scores.index(match(scores))
-    return match(scores), plain_texts[i], keys[i]
+
+    return match(scores), plain_texts[i]
 
 print(detect_sbxor(cypher_texts))
